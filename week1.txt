@@ -1,0 +1,11 @@
+git init
+git status
+git add file.txt
+git commit -m "Initial commit"
+
+git branch feature1
+git checkout feature1
+git add folder/
+git commit -m "Added folder"
+
+git push origin feature1
