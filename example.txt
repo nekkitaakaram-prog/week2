@@ -1,0 +1,674 @@
+SQL> CREATE TABLE department(dept_id NUMBER PRIMARY KEY, dept_name VARCHAR2(50));
+
+Table created.
+
+SQL> DESC department;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPT_ID                                   NOT NULL NUMBER
+ DEPT_NAME                                          VARCHAR2(50)
+
+SQL> CREATE TABLE employee(emp_id NUMBER PRIMARY KEY,emp_name VARCHAR2(50),salary NUMBER,dept_id NUMBER);
+
+Table created.
+
+SQL> DESC employee;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID                                    NOT NULL NUMBER
+ EMP_NAME                                           VARCHAR2(50)
+ SALARY                                             NUMBER
+ DEPT_ID                                            NUMBER
+
+SQL> INSERT INTO Department VALUES (1,'HR');
+
+1 row created.
+
+SQL> INSERT INTO department VALUES (2,'IT');
+
+1 row created.
+
+SQL> INSERT INTO department VALUES(2,'Finance');
+INSERT INTO department VALUES(2,'Finance')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C008317) violated 
+
+
+SQL> INSERT INTO department(3,'Finance');
+INSERT INTO department(3,'Finance')
+                       *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword 
+
+
+SQL> INSERT INTO department VALUES (3,'Finance');
+
+1 row created.
+
+SQL> select * from department;
+
+   DEPT_ID DEPT_NAME                                                            
+---------- --------------------------------------------------                   
+         1 HR                                                                   
+         2 IT                                                                   
+         3 Finance                                                              
+
+SQL> INSERT INTO employee VALUES (101,'Komali',30000,1);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES (102,'Anu',50000,2);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES(103,'Lilly',45000,2);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES(104,'Bobby',40000,3);
+
+1 row created.
+
+SQL> select * from employee;
+
+    EMP_ID EMP_NAME                                               SALARY        
+---------- -------------------------------------------------- ----------        
+   DEPT_ID                                                                      
+----------                                                                      
+       101 Komali                                                  30000        
+         1                                                                      
+                                                                                
+       102 Anu                                                     50000        
+         2                                                                      
+                                                                                
+       103 Lilly                                                   45000        
+         2                                                                      
+                                                                                
+
+    EMP_ID EMP_NAME                                               SALARY        
+---------- -------------------------------------------------- ----------        
+   DEPT_ID                                                                      
+----------                                                                      
+       104 Bobby                                                   40000        
+         3                                                                      
+                                                                                
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> UPDATE employee SET salary =50000 WHERE emp_id=104;
+
+1 row updated.
+
+SQL> DELETE FROM employee WHERE emp_id=101;
+
+1 row deleted.
+
+SQL> ALTER TABLE employee ADD email VARCHAR2(50);
+
+Table altered.
+
+SQL> ALTER TABLE employee MODIFY email VARCHAR2(100);
+
+Table altered.
+
+SQL> ALTER TABLE employee RENAME COLUMN emp_name TO employee_name;
+
+Table altered.
+
+SQL> selct * from employee;
+SP2-0734: unknown command beginning "selct * fr..." - rest of line ignored.
+SQL> select * from employee;
+
+    EMP_ID EMPLOYEE_NAME                                          SALARY        
+---------- -------------------------------------------------- ----------        
+   DEPT_ID                                                                      
+----------                                                                      
+EMAIL                                                                           
+--------------------------------------------------------------------------------
+       102 Anu                                                     50000        
+         2                                                                      
+                                                                                
+                                                                                
+       103 Lilly                                                   45000        
+         2                                                                      
+                                                                                
+
+    EMP_ID EMPLOYEE_NAME                                          SALARY        
+---------- -------------------------------------------------- ----------        
+   DEPT_ID                                                                      
+----------                                                                      
+EMAIL                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+       104 Bobby                                                   50000        
+         3                                                                      
+                                                                                
+                                                                                
+
+SQL> ALTER TABLE employee DROP COLUMN email;
+
+Table altered.
+
+SQL> select * from employee;
+
+    EMP_ID EMPLOYEE_NAME                                          SALARY        
+---------- -------------------------------------------------- ----------        
+   DEPT_ID                                                                      
+----------                                                                      
+       102 Anu                                                     50000        
+         2                                                                      
+                                                                                
+       103 Lilly                                                   45000        
+         2                                                                      
+                                                                                
+       104 Bobby                                                   50000        
+         3                                                                      
+                                                                                
+
+SQL> SELECT employee_name ,salary ,salary+5000 AS salary_with_bonus FROM employee;
+
+EMPLOYEE_NAME                                          SALARY SALARY_WITH_BONUS 
+-------------------------------------------------- ---------- ----------------- 
+Anu                                                     50000             55000 
+Lilly                                                   45000             50000 
+Bobby                                                   50000             55000 
+
+SQL> select employee_name,salary,salary-3000 AS salary_after_tax from employee;
+
+EMPLOYEE_NAME                                          SALARY SALARY_AFTER_TAX  
+-------------------------------------------------- ---------- ----------------  
+Anu                                                     50000            47000  
+Lilly                                                   45000            42000  
+Bobby                                                   50000            47000  
+
+SQL> select emp_name ,salary,salary*12 AS annual_salary FROM employee;
+select emp_name ,salary,salary*12 AS annual_salary FROM employee
+       *
+ERROR at line 1:
+ORA-00904: "EMP_NAME": invalid identifier 
+
+
+SQL> select employee_name ,salary,salary*12 AS annual_salary FROM employee;
+
+EMPLOYEE_NAME                                          SALARY ANNUAL_SALARY     
+-------------------------------------------------- ---------- -------------     
+Anu                                                     50000        600000     
+Lilly                                                   45000        540000     
+Bobby                                                   50000        600000     
+
+SQL> select SUM(salary) AS total_salary FROM employee;
+
+TOTAL_SALARY                                                                    
+------------                                                                    
+      145000                                                                    
+
+SQL> select avg(salary) as average_salary from employee;
+
+AVERAGE_SALARY                                                                  
+--------------                                                                  
+    48333.3333                                                                  
+
+SQL> select min(salary) as lowest_salary from employee;
+
+LOWEST_SALARY                                                                   
+-------------                                                                   
+        45000                                                                   
+
+SQL> select count(*) as total_employees FROM employee;
+
+TOTAL_EMPLOYEES                                                                 
+---------------                                                                 
+              3                                                                 
+
+SQL> SELECT dept_id,SUM(salary) AS dept_total_salary FROM employee GROUP BY dept_id;
+
+   DEPT_ID DEPT_TOTAL_SALARY                                                    
+---------- -----------------                                                    
+         2             95000                                                    
+         3             50000                                                    
+
+SQL> select * from department;
+
+   DEPT_ID DEPT_NAME                                                            
+---------- --------------------------------------------------                   
+         1 HR                                                                   
+         2 IT                                                                   
+         3 Finance                                                              
+
+SQL> select * from employee;
+
+    EMP_ID EMPLOYEE_NAME                                          SALARY        
+---------- -------------------------------------------------- ----------        
+   DEPT_ID                                                                      
+----------                                                                      
+       102 Anu                                                     50000        
+         2                                                                      
+                                                                                
+       103 Lilly                                                   45000        
+         2                                                                      
+                                                                                
+       104 Bobby                                                   50000        
+         3                                                                      
+                                                                                
+
+SQL> SAVEPOINT sp1;
+
+Savepoint created.
+
+SQL> INSERT INTO employee VALUES(105,'Nikky',70000,1);
+
+1 row created.
+
+SQL> select * from employee;
+
+    EMP_ID EMPLOYEE_NAME                                          SALARY        
+---------- -------------------------------------------------- ----------        
+   DEPT_ID                                                                      
+----------                                                                      
+       102 Anu                                                     50000        
+         2                                                                      
+                                                                                
+       103 Lilly                                                   45000        
+         2                                                                      
+                                                                                
+       104 Bobby                                                   50000        
+         3                                                                      
+                                                                                
+
+    EMP_ID EMPLOYEE_NAME                                          SALARY        
+---------- -------------------------------------------------- ----------        
+   DEPT_ID                                                                      
+----------                                                                      
+       105 Nikky                                                   70000        
+         1                                                                      
+                                                                                
+
+SQL> ROLLBACK TO sp1;
+
+Rollback complete.
+
+SQL> SELECT * from employee;
+
+    EMP_ID EMPLOYEE_NAME                                          SALARY        
+---------- -------------------------------------------------- ----------        
+   DEPT_ID                                                                      
+----------                                                                      
+       102 Anu                                                     50000        
+         2                                                                      
+                                                                                
+       103 Lilly                                                   45000        
+         2                                                                      
+                                                                                
+       104 Bobby                                                   50000        
+         3                                                                      
+                                                                                
+
+SQL> GRANT SELECT ON employee TO public;
+
+Grant succeeded.
+
+SQL> REVOKE SELECT ON employee FROM public;
+
+Revoke succeeded.
+
+SQL> select e.employee_name,d.dept_name FROM employee e INNER JOIN department d ON e.dept_id=d.dept_id;
+
+EMPLOYEE_NAME                                                                   
+--------------------------------------------------                              
+DEPT_NAME                                                                       
+--------------------------------------------------                              
+Anu                                                                             
+IT                                                                              
+                                                                                
+Lilly                                                                           
+IT                                                                              
+                                                                                
+Bobby                                                                           
+Finance                                                                         
+                                                                                
+
+SQL> select e.employee_name,d.dept_name FROM employee e LEFT JOIN department d ON e.dept_id=d.dept_id;
+
+EMPLOYEE_NAME                                                                   
+--------------------------------------------------                              
+DEPT_NAME                                                                       
+--------------------------------------------------                              
+Anu                                                                             
+IT                                                                              
+                                                                                
+Lilly                                                                           
+IT                                                                              
+                                                                                
+Bobby                                                                           
+Finance                                                                         
+                                                                                
+
+SQL> select e.employee ,d.dept_name from employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
+select e.employee ,d.dept_name from employee e RIGHT JOIN department d ON e.dept_id = d.dept_id
+       *
+ERROR at line 1:
+ORA-00904: "E"."EMPLOYEE": invalid identifier 
+
+
+SQL> select e.employee_name ,d.dept_name from employee e RIGHT JOIN department d ON e.dept_id = d.dept_id;
+
+EMPLOYEE_NAME                                                                   
+--------------------------------------------------                              
+DEPT_NAME                                                                       
+--------------------------------------------------                              
+Anu                                                                             
+IT                                                                              
+                                                                                
+Lilly                                                                           
+IT                                                                              
+                                                                                
+Bobby                                                                           
+Finance                                                                         
+                                                                                
+
+EMPLOYEE_NAME                                                                   
+--------------------------------------------------                              
+DEPT_NAME                                                                       
+--------------------------------------------------                              
+                                                                                
+HR                                                                              
+                                                                                
+
+SQL> SELECT e.employee_name ,d.dept_name FROM employee e FULL OUTER JOIN department d ON e.dept_id=d.dept_id;
+
+EMPLOYEE_NAME                                                                   
+--------------------------------------------------                              
+DEPT_NAME                                                                       
+--------------------------------------------------                              
+                                                                                
+HR                                                                              
+                                                                                
+Anu                                                                             
+IT                                                                              
+                                                                                
+Lilly                                                                           
+IT                                                                              
+                                                                                
+
+EMPLOYEE_NAME                                                                   
+--------------------------------------------------                              
+DEPT_NAME                                                                       
+--------------------------------------------------                              
+Bobby                                                                           
+Finance                                                                         
+                                                                                
+
+SQL> select * from employee ORDER BY salary desc;
+
+    EMP_ID EMPLOYEE_NAME                                          SALARY        
+---------- -------------------------------------------------- ----------        
+   DEPT_ID                                                                      
+----------                                                                      
+       102 Anu                                                     50000        
+         2                                                                      
+                                                                                
+       104 Bobby                                                   50000        
+         3                                                                      
+                                                                                
+       103 Lilly                                                   45000        
+         2                                                                      
+                                                                                
+
+SQL> SELECT dept_id,sum(salary) from employee GROUP BY dept_id HAVING sum(salary)>60000;
+
+   DEPT_ID SUM(SALARY)                                                          
+---------- -----------                                                          
+         2       95000                                                          
+
+SQL> spool off;
+SQL> select employee_name || '-Dept' || dept_id AS emp_details From employee;
+
+EMP_DETAILS                                                                     
+--------------------------------------------------------------------------------
+Anu-Dept2                                                                       
+Lilly-Dept2                                                                     
+Bobby-Dept3                                                                     
+
+SQL> select employee_name, LENGTH(employee_name) AS name_length From employee;
+
+EMPLOYEE_NAME                                      NAME_LENGTH                  
+-------------------------------------------------- -----------                  
+Anu                                                          3                  
+Lilly                                                        5                  
+Bobby                                                        5                  
+
+SQL> SELECT UPPER(employee_name) AS upper_name FROM employee;
+
+UPPER_NAME                                                                      
+--------------------------------------------------                              
+ANU                                                                             
+LILLY                                                                           
+BOBBY                                                                           
+
+SQL> SELECT LOWER(employee_name) AS short_name FROM emplyee;
+SELECT LOWER(employee_name) AS short_name FROM emplyee
+                                               *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT LOWER(employee_name) AS short_name FROM employee;
+
+SHORT_NAME                                                                      
+--------------------------------------------------                              
+anu                                                                             
+lilly                                                                           
+bobby                                                                           
+
+SQL> select trim('  Nikky   ') AS trimmed_text from dual;
+
+TRIMM                                                                           
+-----                                                                           
+Nikky                                                                           
+
+SQL> select LTRIM('000123','0') as left_trim from dual;
+
+LEF                                                                             
+---                                                                             
+123                                                                             
+
+SQL> SELECT RTRIM('123000','0) AS right_trim from dual;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT RTRIM('123000','0') AS right_trim from dual;
+
+RIG                                                                             
+---                                                                             
+123                                                                             
+
+SQL> select employee_name, REPLACE(employee_name,'i','*') AS replaced_name from employee;
+
+EMPLOYEE_NAME                                                                   
+--------------------------------------------------                              
+REPLACED_NAME                                                                   
+--------------------------------------------------                              
+Anu                                                                             
+Anu                                                                             
+                                                                                
+Lilly                                                                           
+L*lly                                                                           
+                                                                                
+Bobby                                                                           
+Bobby                                                                           
+                                                                                
+
+SQL> CREATE TABLE ex_employee (
+  2   emp_id NUMBER, employee_name VARCHAR2(50)
+  3  
+SQL> CREATE TABLE ex_employee( emp_id NUMBER, employee_name VARCHAR2(50));
+
+Table created.
+
+SQL> INSERT INTO ex_employee VALUES (102,'ANU');
+
+1 row created.
+
+SQL> INSERT INTO EX_EMPLOYEE VALUES (106,'Ravi');
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT employee_name from employee UNION select employee_name from ex_employee;
+
+EMPLOYEE_NAME                                                                   
+--------------------------------------------------                              
+Anu                                                                             
+Lilly                                                                           
+Bobby                                                                           
+ANU                                                                             
+Ravi                                                                            
+
+SQL> select employee_name from employee union all select employee_name from ex_employee;
+
+EMPLOYEE_NAME                                                                   
+--------------------------------------------------                              
+Anu                                                                             
+Lilly                                                                           
+Bobby                                                                           
+ANU                                                                             
+Ravi                                                                            
+
+SQL> select employee_name from employee intersect select employee_name from ex_employee;
+
+no rows selected
+
+SQL> select employee_name from employee minus select employee_name from ex_employee;
+
+EMPLOYEE_NAME                                                                   
+--------------------------------------------------                              
+Anu                                                                             
+Lilly                                                                           
+Bobby                                                                           
+
+SQL> insert into employee values(106,'Ravi',Null,2);
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select employee_name, NVL(salary,0) AS salary_fixed from employee;
+
+EMPLOYEE_NAME                                      SALARY_FIXED                 
+-------------------------------------------------- ------------                 
+Anu                                                       50000                 
+Lilly                                                     45000                 
+Bobby                                                     50000                 
+Ravi                                                          0                 
+
+SQL>  select nullif(50000,50000) as result from dual;
+
+    RESULT                                                                      
+----------                                                                      
+                                                                                
+
+SQL> select employee_name, coalesce (salary,40000,30000) as final_salary from employee;
+
+EMPLOYEE_NAME                                      FINAL_SALARY                 
+-------------------------------------------------- ------------                 
+Anu                                                       50000                 
+Lilly                                                     45000                 
+Bobby                                                     50000                 
+Ravi                                                      40000                 
+
+SQL> select employee_name,salary CASE WHEN salary >=50000 then 'HIGH' WHEN salary>=40000 then 'MEDIUM' else 'low' end as salary_level from employee;
+select employee_name,salary CASE WHEN salary >=50000 then 'HIGH' WHEN salary>=40000 then 'MEDIUM' else 'low' end as salary_level from employee
+                                 *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select employee_name,salary CASE when salary is null then 'NOT ASSIGNED'WHEN salary >=50000 then 'HIGH' WHEN salary>=40000 then 'MEDIUM' else 'low' END AS Salary_level from employee;
+select employee_name,salary CASE when salary is null then 'NOT ASSIGNED'WHEN salary >=50000 then 'HIGH' WHEN salary>=40000 then 'MEDIUM' else 'low' END AS Salary_level from employee
+                                 *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select SYSDATE from dual;
+
+SYSDATE                                                                         
+---------                                                                       
+27-JAN-26                                                                       
+
+SQL> ALTER Table employee ADD join_date Date;
+
+Table altered.
+
+SQL> update employee set join_date = sysdate where emp_id=102;
+
+1 row updated.
+
+SQL> update employee set join_date = sysdate -10 where emp_id=103;
+
+1 row updated.
+
+SQL> update employee set join_date = sysdate-30 where emp_id=104;
+
+1 row updated.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select employee_name,TO_XHAR(join_date,'DD-MON-YYY') AS formatted_date from employee;
+select employee_name,TO_XHAR(join_date,'DD-MON-YYY') AS formatted_date from employee
+                     *
+ERROR at line 1:
+ORA-00904: "TO_XHAR": invalid identifier 
+
+
+SQL> select employee_name,TO_CHAR(join_date,'DD-MON-YYY') AS formatted_date from employee;
+
+EMPLOYEE_NAME                                      FORMATTED_DATE               
+-------------------------------------------------- -------------------          
+Anu                                                27-JAN-026                   
+Lilly                                              17-JAN-026                   
+Bobby                                              28-DEC-025                   
+Ravi                                                                            
+
+SQL> select employee_name, MONTHS_BETWEEN(SYSDATE,join_date) AS months_worked from employee;
+
+EMPLOYEE_NAME                                      MONTHS_WORKED                
+-------------------------------------------------- -------------                
+Anu                                                            0                
+Lilly                                                 .322629555                
+Bobby                                                 .967780018                
+Ravi                                                                            
+
+SQL> select ADD_MONTHS(SYSDATE,6) AS future_date from dual;
+
+FUTURE_DA                                                                       
+---------                                                                       
+27-JUL-26                                                                       
+
+SQL> select LAST_DAY(SYSDATE) from dual;
+
+LAST_DAY(                                                                       
+---------                                                                       
+31-JAN-26                                                                       
+
+SQL> select employee_name,EXTRACT(YEAR FROM join_date) AS join_year FROM employee;
+
+EMPLOYEE_NAME                                       JOIN_YEAR                   
+-------------------------------------------------- ----------                   
+Anu                                                      2026                   
+Lilly                                                    2026                   
+Bobby                                                    2025                   
+Ravi                                                                            
+
+SQL> spool off;
