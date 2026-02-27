@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Commerce UI</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        aside {
+            width: 250px;
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .products {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .product {
+            background: #ddd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>E-Commerce Platform</h1>
+
+<div class="container">
+
+    <!-- Filters -->
+    <aside>
+        <h3>Filters</h3>
+
+        <label>Price Range</label>
+        <input type="range" min="500" max="5000">
+
+        <label>Brand</label>
+        <input type="checkbox"> Nike<br>
+        <input type="checkbox"> Adidas
+
+        <label>Color</label>
+        <input type="checkbox"> Black<br>
+        <input type="checkbox"> White
+
+        <label>Customer Rating</label>
+        <select>
+            <option>4★ & above</option>
+            <option>3★ & above</option>
+        </select>
+    </aside>
+
+    <!-- Products -->
+    <section class="products">
+        <div class="product">Product 1</div>
+        <div class="product">Product 2</div>
+        <div class="product">Product 3</div>
+        <div class="product">Product 4</div>
+        <div class="product">Product 5</div>
+        <div class="product">Product 6</div>
+    </section>
+
+</div>
+
+</body>
+</html>

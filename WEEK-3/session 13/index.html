@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Responsive E-Commerce UI</title>
+
+    <style>
+        /* Base Reset */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Container Layout */
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Sidebar */
+        aside {
+            width: 250px;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* Products Grid */
+        .products {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .product {
+            background: #e0e0e0;
+            padding: 20px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        /* ---------- MEDIA QUERIES ---------- */
+
+        /* Tablet View */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+            }
+
+            aside {
+                width: 100%;
+            }
+        }
+
+        /* Mobile View */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .product {
+                padding: 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>E-Commerce Platform</h1>
+
+<div class="container">
+
+    <!-- Filters -->
+    <aside>
+        <h3>Filters</h3>
+
+        <label>Price Range</label>
+        <input type="range" min="500" max="5000">
+
+        <label>Brand</label>
+        <input type="checkbox"> Nike<br>
+        <input type="checkbox"> Adidas
+
+        <label>Color</label>
+        <input type="checkbox"> Black<br>
+        <input type="checkbox"> White
+
+        <label>Customer Rating</label>
+        <select>
+            <option>4★ & above</option>
+            <option>3★ & above</option>
+        </select>
+    </aside>
+
+    <!-- Products -->
+    <section class="products">
+        <div class="product">Nike Air Max Shoes</div>
+        <div class="product">Adidas Ultraboost</div>
+        <div class="product">Nike Sports T-Shirt</div>
+        <div class="product">Adidas Track Pants</div>
+        <div class="product">Nike Running Shoes</div>
+        <div class="product">Adidas Backpack</div>
+    </section>
+
+</div>
+
+</body>
+</html>

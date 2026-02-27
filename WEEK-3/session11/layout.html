@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Layout Design</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+        }
+
+        header, footer {
+            background: #222;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav {
+            position: fixed;
+            width: 200px;
+            height: 100%;
+            background: #444;
+            color: white;
+            padding: 20px;
+        }
+
+        main {
+            margin-left: 220px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        section {
+            background: #eee;
+            padding: 30px;
+            text-align: center;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Web Interface Layout</h1>
+</header>
+
+<nav>
+    <p>Home</p>
+    <p>About</p>
+    <p>Services</p>
+</nav>
+
+<main>
+    <section>Grid Item 1</section>
+    <section>Grid Item 2</section>
+    <section>Grid Item 3</section>
+    <section>Grid Item 4</section>
+</main>
+
+<footer>
+    <p>Footer Section</p>
+</footer>
+
+</body>
+</html>

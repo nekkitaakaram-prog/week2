@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Keyboard Movement</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            background: #f0f0f0;
+        }
+
+        #box {
+            width: 60px;
+            height: 60px;
+            background-color: blue;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="box"></div>
+
+<script>
+    const box = document.getElementById("box");
+    let x = 100;
+    let y = 100;
+    const step = 10;
+
+    document.addEventListener("keydown", function (event) {
+        switch (event.key) {
+            case "ArrowUp":
+                y -= step;
+                break;
+            case "ArrowDown":
+                y += step;
+                break;
+            case "ArrowLeft":
+                x -= step;
+                break;
+            case "ArrowRight":
+                x += step;
+                break;
+        }
+
+        box.style.left = x + "px";
+        box.style.top = y + "px";
+    });
+</script>
+
+</body>
+</html>
